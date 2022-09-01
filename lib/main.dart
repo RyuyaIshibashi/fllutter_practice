@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_practice/todo.dart';
 
 void main() {
   runApp(const App());
@@ -25,7 +26,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   // buildメソッドにあった変数を移動します
-  final todos = List.generate(10, (index) => "ToDo ${index + 1}");
+  final todos = List.generate(
+    10,
+    (index) => ToDo(title: 'ToDo ${index + 1}'),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +38,16 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('ToDo'),
       ),
       body: ListView.builder(
-        itemBuilder: (context, index) => ListTile(
-          title: Text(todos[index]),
+        // ListTileからCheckboxListTileに変更します
+        itemBuilder: (context, index) => CheckboxListTile(
+          onChanged: (checked) {
+            setState(() {
+              //完了状態を反転させます
+              todos[index].archived = !todos[index].archived;
+            });
+          },
+          value: todos[index].archived,
+          title: Text(todos[index].title),
         ),
         itemCount: todos.length,
       ),
@@ -44,7 +56,10 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () {
           // 変更します
           setState(() {
-          todos.add("ToDo ${todos.length + 1}");
+            // ToDoインスタンスを追加するように変更します
+            todos.add(
+              ToDo(title: "ToDo ${todos.length + 1}")
+            );
           });
         },
       ),
