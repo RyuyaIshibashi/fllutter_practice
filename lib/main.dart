@@ -15,17 +15,20 @@ class App extends StatelessWidget {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+// StatelessWidgetからStatefulWidgetに変換します
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}): super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    // 仮のデータ（スタブ）を用意します
-    final todos = List.generate(
-      10,
-      (index) => "ToDo ${index + 1}",
-    );
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
+  // buildメソッドにあった変数を移動します
+  final todos = List.generate(10, (index) => "ToDo ${index + 1}");
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('ToDo'),
@@ -39,7 +42,10 @@ class HomeScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
+          // 変更します
+          setState(() {
           todos.add("ToDo ${todos.length + 1}");
+          });
         },
       ),
     );
