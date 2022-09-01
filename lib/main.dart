@@ -20,13 +20,21 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final todos = List.generate(
+      10,
+      (index) => "ToDo ${index + 1}",
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('ToDo'),
       ),
-      body: const Center(
-        child: Text('メインコンテンツ'),
-      )
+      body: ListView.builder(
+        itemBuilder: (context, index) => ListTile(
+          title: Text(todos[index]),
+        ),
+        itemCount: todos.length,
+      ),
     );
   }
 }
